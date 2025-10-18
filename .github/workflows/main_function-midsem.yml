@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy dotnet core project to Azure Function App - function-midsem
 
 on:
@@ -10,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: './MidtermProject'  # ← THE ONLY CHANGE
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   DOTNET_VERSION: '8.0.x'
 
 jobs:
@@ -29,18 +26,23 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: 'Debug - Show Files'  # ← TEMPORARY: Remove after success
+      # ================================ TEMP DEBUG START ================================
+      - name: '🚨 EMERGENCY DEBUG - FIND YOUR PROJECT'
         run: |
-          pwd
+          echo "=== ALL FILES ==="
           ls -la
-          find . -name "*.csproj"
+          echo "=== FINDING .csproj ==="
+          find . -name "*.csproj" | head -5
+          echo "=== TREE VIEW ==="
+          tree -L 3 || ls -R
+      # ================================ TEMP DEBUG END ================================
 
       - name: 'Resolve Project Dependencies Using Dotnet'
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          pwd  # Debug
-          ls -la  # Debug
+          pwd
+          ls -la
           dotnet build --configuration Release --output ./output
           popd
       
@@ -58,5 +60,3 @@ jobs:
           app-name: 'function-midsem'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-
-
