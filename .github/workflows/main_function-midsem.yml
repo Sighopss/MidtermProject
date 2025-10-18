@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: './MidtermProject/MidtermProject'  # ← THE ONLY CHANGE
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './MidtermProject'  # ← THE ONLY CHANGE
   DOTNET_VERSION: '8.0.x'
 
 jobs:
@@ -58,4 +58,5 @@ jobs:
           app-name: 'function-midsem'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+
 
